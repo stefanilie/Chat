@@ -28,7 +28,8 @@ class Srv {  // Clasa Server, locul la care se vor conecta clientii
     ServerSocket ss = null; Socket cs = null;
     Scanner sc = new Scanner(System.in); 
     System.out.print("Portul : ");
-    ss = new ServerSocket( sc.nextInt() );  // instantiam ServerSocket-ul la portul citit de la tastatura 
+    ss = new ServerSocket(14);
+    //ss = new ServerSocket( sc.nextInt() );  // instantiam ServerSocket-ul la portul citit de la tastatura 
     System.out.println("Serverul a pornit");
 
     while (true) { // Blocam firul principal al serverului cu un lool care asteapta 
@@ -72,7 +73,6 @@ class Conexiune extends Thread { // Clasa Conexiune extinde Thread si presupune 
                 {              
                     String[] temp = message.split(" ");
                     String nume = temp[1];
-                    System.out.println(temp[1]);
                     
                     if(_listNames.contains(nume))
                     {

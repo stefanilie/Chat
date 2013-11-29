@@ -5,7 +5,9 @@
 package srvcln;
 
 
-import java.net.*; import java.util.*; import java.io.*;
+import java.net.*;
+import java.util.*;
+import java.io.*;
 
 class Cln {  // Clasa Client, cel ce se va conecta la Server
     // Clasa client are doua functionalitati, sa trimita si sa primeasca mesaje
@@ -18,7 +20,8 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
     String strName = "";
     Scanner sc = new Scanner(System.in); 
     System.out.print("Adresa serverului si portul : ");
-    Socket cs = new Socket( sc.next(), sc.nextInt() ); // instantiem un socket la adresa si portul citit de la tastatura
+    Socket cs = new Socket("localhost", 14);
+    //Socket cs = new Socket( sc.next(), sc.nextInt() ); // instantiem un socket la adresa si portul citit de la tastatura
     // socket-ul va fi obiectul ce se va conecta la server si prin intermediul caruia vom transmite si primi date
     DataOutputStream os = new DataOutputStream( cs.getOutputStream()); // declaram un obiect de tipul DataOutputStream
     // ce va lucra cu fluxul de iesire al socket-ului
@@ -43,6 +46,13 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
       strName = sc.next();
       String ceva ="/nick " + strName; 
       os.writeUTF(ceva);
+      while(is.readUTF() == "Nickname already exists. Choose another" ||
+            is.readUTF() == "Nume invalid. Nu trebuie sa contina \' \'")
+      {
+          strName = sc.next();
+          ceva = "/nick "+ strName;
+          os.writeUTF(ceva);
+      }
       while (true)
       { // blocam firul principal cu un loop infinit care citeste de la tastatura mesaje
           // si le trimite prin DataOutputStream in fluxul de iesire al socket-ului catre server
