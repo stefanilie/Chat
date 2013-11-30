@@ -68,28 +68,38 @@ class Conexiune extends Thread { // Clasa Conexiune extinde Thread si presupune 
     try {
        while (true) { // blocam firul threadului cu un loop ce primeste mesaje de la client
                 String message = is.readUTF(); // citim un mesaj prin fluxul de intrare
-          //      System.out.println(message);  // il afisam
+                System.out.println(message);  // il afisam
                 if(message.startsWith("/nick"))
                 {              
                     String[] temp = message.split(" ");
                     String nume = temp[1];
+                    System.out.println(nume);
                     
                     if(_listNames.contains(nume))
                     {
-                        os.writeUTF("Nickname already exists. Choose another");
+                        System.out.println("primu caz la if");
+                        os.writeUTF("Nickname deja exista. Alege altul!");
                     }
                     else
                     {
+                        System.out.println("al doilea caz la if");
                         _listNames.add(nume);
+                        System.out.println("a trecut de list add");
                         os.writeUTF("Nick accepatat!");
+                        System.out.println("si de os.write");
                     }
-                } 
-                else 
-                for(int i=0;i<_sockete.size();i++) // apoi parcurgem lista de clienti conectati la server si le trimitem                   
-                {
-                    _sockete.get(i).writeUTF(_listNames.get(i)+ ": " + message);    // mesajul ce tocmai a fost primit
                 }
-                
+                else if(message.startsWith("/mesaj"))
+                {
+                    System.out.println("Raw message from client" + message);
+                    String[] temp = message.split("44");
+                    for(int i=0;i<_sockete.size();i++) // apoi parcurgem lista de clienti conectati la server si le trimitem                   
+                    {
+                        if(!temp[1].equals(_listNames.get(i)))
+                        _sockete.get(i).writeUTF(_listNames.get(i)+ ": " + message);    // mesajul ce tocmai a fost primit
+                        //TO DO: In caz ca nu e ok cu afisarea, baga aici afisare, fara nume
+                    }
+                }
             }
     }
     catch(Exception e) { }

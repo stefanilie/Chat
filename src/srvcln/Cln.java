@@ -31,10 +31,10 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
         // mesajelor de la server
              public void run() { // metoda ce va fi apelata cand thread-ul este pornit
               while (true) {// blocam firul printr-un loop infinit ce primeste mesaje de la server
-                  String s = ""; // 
+                  String isRead = ""; // 
                   try {
-                      s = is.readUTF();   // primim mesajul de la server
-                      System.out.println(s); // afisam ce am primit
+                      isRead = is.readUTF();   // primim mesajul de la server
+                      System.out.println(isRead);// afisam ce am primit
                   } catch (IOException ex) {
                   }
                  
@@ -42,22 +42,29 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
           }
       });
       T.start(); // pornim threadul 
+      
       System.out.println("Conexiune reusita!\n Acum alege un nume:");
       strName = sc.next();
+      while(strName.contains(" "))
+      {
+          System.out.println("Nume invalid. Nu trebuie sa contina \' \'");
+          strName = sc.next();
+      }
       String ceva ="/nick " + strName; 
       os.writeUTF(ceva);
-      while(is.readUTF() == "Nickname already exists. Choose another" ||
-            is.readUTF() == "Nume invalid. Nu trebuie sa contina \' \'")
+     /* while(strResponse.contains("Nickname already exists. Choose another"))
       {
           strName = sc.next();
           ceva = "/nick "+ strName;
           os.writeUTF(ceva);
-      }
+          strResponse = is.readUTF();
+      }*/
+      System.out.print("Setup finalizat! Poti conversa!");
       while (true)
       { // blocam firul principal cu un loop infinit care citeste de la tastatura mesaje
           // si le trimite prin DataOutputStream in fluxul de iesire al socket-ului catre server
           st = sc.nextLine();
-          os.writeUTF(st);
+          os.writeUTF("/mesaj44"+ strName+ "44" +st);
       }
   }
 }
