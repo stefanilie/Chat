@@ -52,7 +52,7 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
       }
       String ceva ="/nick " + strName; 
       os.writeUTF(ceva);
-     /* while(strResponse.contains("Nickname already exists. Choose another"))
+    /*  while(strResponse.contains("Nickname already exists. Choose another"))
       {
           strName = sc.next();
           ceva = "/nick "+ strName;
@@ -63,7 +63,7 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
       while (true)
       { // blocam firul principal cu un loop infinit care citeste de la tastatura mesaje
           // si le trimite prin DataOutputStream in fluxul de iesire al socket-ului catre server
-          st = sc.nextLine();
+          st = sc.next();
           os.writeUTF("/mesaj44"+ strName+ "44" +st);
       }
   }

@@ -5,6 +5,7 @@
 package srvcln;
 
 // importurile necesare
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Template;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -77,26 +78,27 @@ class Conexiune extends Thread { // Clasa Conexiune extinde Thread si presupune 
                     
                     if(_listNames.contains(nume))
                     {
-                        System.out.println("primu caz la if");
                         os.writeUTF("Nickname deja exista. Alege altul!");
                     }
                     else
                     {
-                        System.out.println("al doilea caz la if");
                         _listNames.add(nume);
-                        System.out.println("a trecut de list add");
                         os.writeUTF("Nick accepatat!");
-                        System.out.println("si de os.write");
                     }
                 }
                 else if(message.startsWith("/mesaj"))
                 {
                     System.out.println("Raw message from client" + message);
                     String[] temp = message.split("44");
+                    System.out.println("parsed: " + temp[2]);
+                    boolean isTrue ;
                     for(int i=0;i<_sockete.size();i++) // apoi parcurgem lista de clienti conectati la server si le trimitem                   
                     {
+                        isTrue = temp[1].equals(_listNames.get(i));
+                        System.out.println("Numele din mesaj: " + temp[1]+ " si celui caruia i se atribuie: " 
+                                + _listNames.get(i) + " si val de adev a expresiei din if: " + isTrue);
                         if(!temp[1].equals(_listNames.get(i)))
-                        _sockete.get(i).writeUTF(_listNames.get(i)+ ": " + message);    // mesajul ce tocmai a fost primit
+                        _sockete.get(i).writeUTF(temp[1] + ": " + temp[2]);    // mesajul ce tocmai a fost primit
                         //TO DO: In caz ca nu e ok cu afisarea, baga aici afisare, fara nume
                     }
                 }
