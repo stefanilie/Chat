@@ -15,6 +15,7 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
     // in programul de mai jos vom pastra firul principal pentru a trimite mesaje catre server
     // si vom crea un Thread nou pentru a primi mesaje de la server
     
+  public static String st = "";
   public static void main(String[] args) throws Exception
   {
     String strName = "";
@@ -23,18 +24,17 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
     Socket cs = new Socket("localhost", 14);
     //Socket cs = new Socket( sc.next(), sc.nextInt() ); // instantiem un socket la adresa si portul citit de la tastatura
     // socket-ul va fi obiectul ce se va conecta la server si prin intermediul caruia vom transmite si primi date
-    DataOutputStream os = new DataOutputStream( cs.getOutputStream()); // declaram un obiect de tipul DataOutputStream
+    DataOutputStream os = new DataOutputStream(cs.getOutputStream()); // declaram un obiect de tipul DataOutputStream
     // ce va lucra cu fluxul de iesire al socket-ului
-    final DataInputStream is = new DataInputStream( cs.getInputStream()); // analog pentru fluxul de intrare
-    String st = "";
+    final DataInputStream is = new DataInputStream(cs.getInputStream()); // analog pentru fluxul de intrare
     Thread T= new Thread(new Runnable(){  // declaram si instantiam Thread-ul ce se va ocupa cu primirea
         // mesajelor de la server
              public void run() { // metoda ce va fi apelata cand thread-ul este pornit
               while (true) {// blocam firul printr-un loop infinit ce primeste mesaje de la server
-                  String isRead = ""; // 
+           //       String isRead = ""; // 
                   try {
-                      isRead = is.readUTF();   // primim mesajul de la server
-                      System.out.println(isRead);// afisam ce am primit
+                      Cln.st = is.readUTF();   // primim mesajul de la server
+                      System.out.println(st);// afisam ce am primit
                   } catch (IOException ex) {
                   }
                  
@@ -52,19 +52,24 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
       }
       String ceva ="/nick " + strName; 
       os.writeUTF(ceva);
+      String strResponse =  Cln.st;
+      System.out.println("Raspunsu de la server: " + strResponse);
     /*  while(strResponse.contains("Nickname already exists. Choose another"))
       {
           strName = sc.next();
           ceva = "/nick "+ strName;
           os.writeUTF(ceva);
-          strResponse = is.readUTF();
-      }*/
-      System.out.print("Setup finalizat! Poti conversa!");
+          System.out.println("Ce se trimite la server: " + ceva);
+          strResponse = st;
+          System.out.println("ce s-a primit de la server: " + strResponse);
+      }
+      System.out.print("Setup finalizat! Poti conversa!");*/
       while (true)
       { // blocam firul principal cu un loop infinit care citeste de la tastatura mesaje
           // si le trimite prin DataOutputStream in fluxul de iesire al socket-ului catre server
-          st = sc.next();
-          os.writeUTF("/mesaj44"+ strName+ "44" +st);
+          ceva = sc.next();
+          os.writeUTF("/mesaj44"+ strName+ "44" +ceva);
+          System.out.println("Raspunsu de la server: "+ Cln.st);
       }
   }
 }
