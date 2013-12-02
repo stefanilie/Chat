@@ -52,24 +52,24 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
       }
       String ceva ="/nick " + strName; 
       os.writeUTF(ceva);
+      Thread.sleep(5000);
       String strResponse =  Cln.st;
-      System.out.println("Raspunsu de la server: " + strResponse);
-    /*  while(strResponse.contains("Nickname already exists. Choose another"))
+      while(strResponse.contains("Nickname deja exista. Alege altul!"))
       {
           strName = sc.next();
           ceva = "/nick "+ strName;
           os.writeUTF(ceva);
           System.out.println("Ce se trimite la server: " + ceva);
-          strResponse = st;
+          strResponse = Cln.st;
           System.out.println("ce s-a primit de la server: " + strResponse);
       }
-      System.out.print("Setup finalizat! Poti conversa!");*/
+      System.out.print("Setup finalizat! Poti conversa!");
       while (true)
       { // blocam firul principal cu un loop infinit care citeste de la tastatura mesaje
           // si le trimite prin DataOutputStream in fluxul de iesire al socket-ului catre server
           ceva = sc.next();
           os.writeUTF("/mesaj44"+ strName+ "44" +ceva);
-          System.out.println("Raspunsu de la server: "+ Cln.st);
+          
       }
   }
 }
