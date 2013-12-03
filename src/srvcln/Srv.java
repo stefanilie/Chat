@@ -86,15 +86,23 @@ class Conexiune extends Thread { // Clasa Conexiune extinde Thread si presupune 
                         os.writeUTF("Nick accepatat!");
                     }
                 }
-                else if(message.startsWith("/private"))
+                else if(message.startsWith("/pm"))
                 {
                     String strPrivateName = message.split("44")[2];
                     String strPrivateMessage = message.split("44")[3];
                     String strSenderName = message.split("44")[1];
                     System.out.println("Raw message: "+ message + " sender name: " + strSenderName 
                             + "and recepient: "+ strPrivateName + " and the message :" + strPrivateMessage);
-                    int nIndex = _listNames.indexOf(strPrivateName);
-                    _sockete.get(nIndex).writeUTF(strSenderName + ": " + strPrivateMessage);
+                    if(_listNames.contains(strPrivateName))
+                    {
+                        int nIndex = _listNames.indexOf(strPrivateName);
+                       _sockete.get(nIndex).writeUTF(strSenderName + ": " + strPrivateMessage);
+                    }
+                    else
+                    {
+                        os.writeUTF("Nume inexistent. Incearca din nou");
+                    }
+                    
                     
                 }
                 else if(message.startsWith("/list"))

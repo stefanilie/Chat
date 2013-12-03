@@ -73,18 +73,22 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
           // si le trimite prin DataOutputStream in fluxul de iesire al socket-ului catre server
           ceva = sc.readLine();
           
-          if(ceva.contains("/private"))
+          if(ceva.contains("/pm"))
           {
-              System.out.println("pe if inainte de os.write");
+              System.out.println("trimmed: " + ceva.trim());
               String strPrivateName = ceva.split(" ")[1];
-              System.out.println("Acum adauga mesajul care vrei sa il trimiti lui" + strPrivateName);
+              System.out.println("Acum adauga mesajul care vrei sa il trimiti pentru " + strPrivateName);
               ceva = sc.readLine();
               os.writeUTF("/private44" + strName + "44" + strPrivateName + "44" + ceva);
-              System.out.println("dupa os.write din if");
+              strResponse =  Cln.st;
+              while(strResponse.contains("Nume inexistent. Incearca din nou"))
+              {
+                  //TODO: validare aici:
+              }
           }
           else if(ceva.equals("/help".trim()))
           {
-              System.out.println("\n\nOptiuni:\n/private nickPersoana - mesaj privat acelei persoane"
+              System.out.println("\n\nOptiuni:\n/pm nickPersoana - mesaj privat acelei persoane"
                       + "\n/list - afisaza toti userii care sunt au statusul \'ON\'"
                       + "\n/quit - paraseste conversatia\n\n");
           }
@@ -99,9 +103,7 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
           }
           else
           {
-              System.out.println("inainte de os.writeutf din else");
               os.writeUTF("/mesaj44"+ strName + "44" + ceva);
-              System.out.println("dupa os.write");
           }
           
           
