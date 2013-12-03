@@ -97,6 +97,11 @@ class Conexiune extends Thread { // Clasa Conexiune extinde Thread si presupune 
                     _sockete.get(nIndex).writeUTF(strSenderName + ": " + strPrivateMessage);
                     
                 }
+                else if(message.startsWith("/list"))
+                {
+                    int nIndex = _listNames.indexOf(message.split("44")[1]);
+                    _sockete.get(nIndex).writeUTF("Lista de persoane ON:\n" + _listNames.toString());
+                }
                 else if(message.startsWith("/mesaj"))
                 {
                     System.out.println("Raw message from client" + message);

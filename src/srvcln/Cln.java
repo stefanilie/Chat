@@ -52,7 +52,7 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
       }
       String ceva ="/nick " + strName; 
       os.writeUTF(ceva);
-      Thread.sleep(5000);
+      Thread.sleep(1000);
       String strResponse =  Cln.st;
       while(strResponse.contains("Nickname deja exista. Alege altul!"))
       {
@@ -65,22 +65,37 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
       }
       System.out.print("Setup finalizat! Poti conversa!");
       System.out.println("Daca doresti sa vorbest cu cineva pe privat, scrie \'/private nickPersoana\'.");
-      //TODO aici de adaugat lista de utilizatori
       System.out.println("Pentru alte informatii scrie \'/help\'.");
       while (true)
       { // blocam firul principal cu un loop infinit care citeste de la tastatura mesaje
           // si le trimite prin DataOutputStream in fluxul de iesire al socket-ului catre server
           ceva = sc.next();
+          System.out.println(" cu "+ceva.toString()+" fara "+ceva);
+          
           if(ceva.contains("/private"))
           {
+              System.out.println("pe if inainte de os.write");
               String strPrivateName = ceva.split(" ")[1];
               System.out.println("Acum adauga mesajul care vrei sa il trimiti lui" + strPrivateName);
               ceva = sc.next();
               os.writeUTF("/private44" + strName + "44" + strPrivateName + "44" + ceva);
+              System.out.println("dupa os.write din if");
+          }
+          else if (ceva.equals("/help"))
+          {
+              System.out.println("Optiuni:\n/private nickPersoana - mesaj privat acelei persoane"
+                      + "\n/list - afisaza toti userii care sunt au statusul \'ON\'"
+                      + "\n/quit - paraseste conversatia");
+          }
+          else if(ceva.equals("/list"))
+          {
+              os.writeUTF(ceva + "44" + strName);
           }
           else
           {
+              System.out.println("inainte de os.writeutf din else");
               os.writeUTF("/mesaj44"+ strName + "44" + ceva);
+              System.out.println("dupa os.write");
           }
           
           
