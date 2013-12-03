@@ -86,6 +86,12 @@ class Conexiune extends Thread { // Clasa Conexiune extinde Thread si presupune 
                         os.writeUTF("Nick accepatat!");
                     }
                 }
+                else if(message.startsWith("/private"))
+                {
+                    String strPrivateName = message.split(" ")[1];
+                    int nIndex = _listNames.indexOf(strPrivateName);
+                    
+                }
                 else if(message.startsWith("/mesaj"))
                 {
                     System.out.println("Raw message from client" + message);

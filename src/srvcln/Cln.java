@@ -64,11 +64,22 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
           System.out.println("ce s-a primit de la server: " + strResponse);
       }
       System.out.print("Setup finalizat! Poti conversa!");
+      System.out.println("Daca doresti sa vorbest cu cineva pe privat, scrie \'/private nickPersoana mesaj\'.");
+      //TODO aici de adaugat lista de utilizatori
+      System.out.println("Pentru alte informatii scrie \'/help\'.");
       while (true)
       { // blocam firul principal cu un loop infinit care citeste de la tastatura mesaje
           // si le trimite prin DataOutputStream in fluxul de iesire al socket-ului catre server
           ceva = sc.next();
-          os.writeUTF("/mesaj44"+ strName+ "44" +ceva);
+          if(ceva.contains("/private"))
+          {
+              os.writeUTF(ceva);
+          }
+          else
+          {
+              os.writeUTF("/mesaj44"+ strName + "44" + ceva);
+          }
+          
           
       }
   }
