@@ -64,7 +64,7 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
           System.out.println("ce s-a primit de la server: " + strResponse);
       }
       System.out.print("Setup finalizat! Poti conversa!");
-      System.out.println("Daca doresti sa vorbest cu cineva pe privat, scrie \'/private nickPersoana mesaj\'.");
+      System.out.println("Daca doresti sa vorbest cu cineva pe privat, scrie \'/private nickPersoana\'.");
       //TODO aici de adaugat lista de utilizatori
       System.out.println("Pentru alte informatii scrie \'/help\'.");
       while (true)
@@ -73,7 +73,10 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
           ceva = sc.next();
           if(ceva.contains("/private"))
           {
-              os.writeUTF(ceva);
+              String strPrivateName = ceva.split(" ")[1];
+              System.out.println("Acum adauga mesajul care vrei sa il trimiti lui" + strPrivateName);
+              ceva = sc.next();
+              os.writeUTF("/private44" + strName + "44" + strPrivateName + "44" + ceva);
           }
           else
           {

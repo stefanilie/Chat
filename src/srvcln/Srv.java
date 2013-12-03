@@ -88,8 +88,13 @@ class Conexiune extends Thread { // Clasa Conexiune extinde Thread si presupune 
                 }
                 else if(message.startsWith("/private"))
                 {
-                    String strPrivateName = message.split(" ")[1];
+                    String strPrivateName = message.split("44")[2];
+                    String strPrivateMessage = message.split("44")[3];
+                    String strSenderName = message.split("44")[1];
+                    System.out.println("Raw message: "+ message + " sender name: " + strSenderName 
+                            + "and recepient: "+ strPrivateName + " and the message :" + strPrivateMessage);
                     int nIndex = _listNames.indexOf(strPrivateName);
+                    _sockete.get(nIndex).writeUTF(strSenderName + ": " + strPrivateMessage);
                     
                 }
                 else if(message.startsWith("/mesaj"))
