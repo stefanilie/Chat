@@ -102,6 +102,16 @@ class Conexiune extends Thread { // Clasa Conexiune extinde Thread si presupune 
                     int nIndex = _listNames.indexOf(message.split("44")[1]);
                     _sockete.get(nIndex).writeUTF("Lista de persoane ON:\n" + _listNames.toString());
                 }
+                else if(message.startsWith("/quit"))
+                {
+                    int nIndex = _listNames.indexOf(message.split("44")[1]);
+                    _listNames.remove(nIndex);
+                    _sockete.remove(nIndex);
+                    for(int i=0;i<_sockete.size();i++) // apoi parcurgem lista de clienti conectati la server si le trimitem                   
+                    {
+                        _sockete.get(i).writeUTF("User " + message.split("44")[1]+" left de conversation.");
+                    }
+                }
                 else if(message.startsWith("/mesaj"))
                 {
                     System.out.println("Raw message from client" + message);

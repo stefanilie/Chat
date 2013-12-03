@@ -19,7 +19,8 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
   public static void main(String[] args) throws Exception
   {
     String strName = "";
-    Scanner sc = new Scanner(System.in); 
+    BufferedReader sc = new BufferedReader(new InputStreamReader(System.in));
+   // Scanner sc = new Scanner(System.in); 
     System.out.print("Adresa serverului si portul : ");
     Socket cs = new Socket("localhost", 14);
     //Socket cs = new Socket( sc.next(), sc.nextInt() ); // instantiem un socket la adresa si portul citit de la tastatura
@@ -44,11 +45,11 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
       T.start(); // pornim threadul 
       
       System.out.println("Conexiune reusita!\n Acum alege un nume:");
-      strName = sc.next();
+      strName = sc.readLine();
       while(strName.contains(" "))
       {
           System.out.println("Nume invalid. Nu trebuie sa contina \' \'");
-          strName = sc.next();
+          strName = sc.readLine();
       }
       String ceva ="/nick " + strName; 
       os.writeUTF(ceva);
@@ -56,7 +57,7 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
       String strResponse =  Cln.st;
       while(strResponse.contains("Nickname deja exista. Alege altul!"))
       {
-          strName = sc.next();
+          strName = sc.readLine();
           ceva = "/nick "+ strName;
           os.writeUTF(ceva);
           System.out.println("Ce se trimite la server: " + ceva);
@@ -66,26 +67,31 @@ class Cln {  // Clasa Client, cel ce se va conecta la Server
       System.out.print("Setup finalizat! Poti conversa!");
       System.out.println("Daca doresti sa vorbest cu cineva pe privat, scrie \'/private nickPersoana\'.");
       System.out.println("Pentru alte informatii scrie \'/help\'.");
+      Thread.sleep(2000);
       while (true)
       { // blocam firul principal cu un loop infinit care citeste de la tastatura mesaje
           // si le trimite prin DataOutputStream in fluxul de iesire al socket-ului catre server
-          ceva = sc.next();
-          System.out.println(" cu "+ceva.toString()+" fara "+ceva);
+          ceva = sc.readLine();
           
           if(ceva.contains("/private"))
           {
               System.out.println("pe if inainte de os.write");
               String strPrivateName = ceva.split(" ")[1];
               System.out.println("Acum adauga mesajul care vrei sa il trimiti lui" + strPrivateName);
-              ceva = sc.next();
+              ceva = sc.readLine();
               os.writeUTF("/private44" + strName + "44" + strPrivateName + "44" + ceva);
               System.out.println("dupa os.write din if");
           }
-          else if (ceva.equals("/help"))
+          else if(ceva.equals("/help".trim()))
           {
-              System.out.println("Optiuni:\n/private nickPersoana - mesaj privat acelei persoane"
+              System.out.println("\n\nOptiuni:\n/private nickPersoana - mesaj privat acelei persoane"
                       + "\n/list - afisaza toti userii care sunt au statusul \'ON\'"
-                      + "\n/quit - paraseste conversatia");
+                      + "\n/quit - paraseste conversatia\n\n");
+          }
+          else if(ceva.equals("/quit".trim()))
+          {
+              os.writeUTF(ceva+ "44" + strName);
+              System.exit(0);
           }
           else if(ceva.equals("/list"))
           {
